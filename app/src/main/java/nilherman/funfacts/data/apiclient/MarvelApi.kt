@@ -15,7 +15,17 @@ interface MarvelApi {
                      @Query("ts")
                      ts : String,
                      @Query("hash")
-                     hash : String): Call<Response>
+                     hash : String,
+                     @Query("nameStartsWith")
+                     nameStartsWith : String): Call<Response>
 
+    @Headers("Accept: application/json")
+    @GET("/v1/public/characters")
+    fun getCharacter(@Query("apikey")
+                     apikey : String,
+                     @Query("ts")
+                     ts : String,
+                     @Query("hash")
+                     hash : String): Call<Response>
 
 }

@@ -19,6 +19,6 @@ class FactBook {
 //    fun getFact(): String{
 //        // Selects a random fact
 //        val randomGenerator = Random()
-//        val randomNumber = randomGenerator.nextInt(facts.size)
-//        return facts[randomNumber]
+//        val randomNumber = randomGenerator.nextInt(characters.size)
+//        return characters[randomNumber]
 //    }

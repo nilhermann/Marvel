@@ -18,10 +18,11 @@ class FunFactsActivity : AppCompatActivity(), Callback<Response> {
     }
 
     override fun onResponse(call: Call<Response>?, response: retrofit2.Response<Response>?) {
-        recyclerView.adapter = FrasesAdapter(response?.body()?.data?.results, this)
+        recyclerView.adapter = CharactersAdapter(response?.body()?.data?.results, this)
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
-    val facts: List<String> = FactBook().factsList
+    val characters: List<String> = FactBook().factsList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +30,16 @@ class FunFactsActivity : AppCompatActivity(), Callback<Response> {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        //recyclerView.adapter = FrasesAdapter(facts, this)
-
         Repository().getCharacter(RestApi.apikey, RestApi.ts, RestApi.hash).enqueue(this)
 
+        button.setOnClickListener{
+            var searchFilter = search.text.toString()
+            if (searchFilter.isEmpty()) {
+                Repository().getCharacter(RestApi.apikey, RestApi.ts,RestApi.hash).enqueue(this)
+            } else {
+                Repository().getCharacter(RestApi.apikey, RestApi.ts,RestApi.hash, searchFilter).enqueue(this)
+            }
+
+        }
     }
 }
