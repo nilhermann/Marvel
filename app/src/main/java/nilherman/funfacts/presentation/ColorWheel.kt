@@ -1,4 +1,4 @@
-package nilherman.funfacts
+package nilherman.funfacts.presentation
 
 import android.graphics.Color
 import java.util.*
