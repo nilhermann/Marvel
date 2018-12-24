@@ -12,11 +12,12 @@
 
 
     <TextView
-        android:id="@+id/tv_facts"
+        android:id="@+id/tv_characters"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
         android:text="TextView"
         android:textSize="14sp"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="48dp" />
+
 </LinearLayout>

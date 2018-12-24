@@ -7,7 +7,7 @@
     android:background="@android:color/holo_blue_dark"
     android:padding="25dp"
     android:orientation="vertical"
-    tools:context=".presentation.FunFactsActivity">
+    tools:context=".presentation.home.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"

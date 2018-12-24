@@ -1,4 +1,4 @@
-package nilherman.funfacts.presentation
+package nilherman.funfacts.presentation.home
 
 class FactBook {
     // Properties - characteristics of the object

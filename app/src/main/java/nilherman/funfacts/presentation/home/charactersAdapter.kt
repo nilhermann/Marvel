@@ -1,4 +1,4 @@
-package nilherman.funfacts.presentation
+package nilherman.funfacts.presentation.home
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.frases_inspiradoras.view.*
 import nilherman.funfacts.R
 import nilherman.funfacts.data.model.ResultsItem
 
-class CharactersAdapter(val characters: List<ResultsItem?>?, val context: Context) : RecyclerView.Adapter<ViewHolder>() {
+class CharactersAdapter(val characters: List<ResultsItem?>?, val context: Context, val clickListener: (ResultsItem) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.frases_inspiradoras, parent, false))
@@ -21,15 +21,20 @@ class CharactersAdapter(val characters: List<ResultsItem?>?, val context: Contex
     override fun getItemCount(): Int = characters?.size ?: 0
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvFacts.text = characters?.get(position)?.name
+        holder.tvCharacters.text = characters?.get(position)?.name
         Glide.with(context)
                 .load(characters?.get(position)?.thumbnail?.path+ "." + characters?.get(position)?.thumbnail?.extension)
                 .into(holder.imageView)
+
+        holder.bind(characters?.get(position)!!, clickListener)
     }
 }
 
-class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
-    val tvFacts: TextView = view.tv_facts
+class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val tvCharacters: TextView = view.tv_characters
     val imageView: ImageView = view.im_thumbnail
+    fun bind(results: ResultsItem, clickListener: (ResultsItem) -> Unit) {
+        itemView.tv_characters.text = results.name
+        itemView.setOnClickListener{clickListener(results)}
+    }
 }
-
