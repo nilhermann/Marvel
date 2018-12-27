@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), Callback<Response> {
     }
 
     private fun onCharactersClicked(character : ResultsItem) {
-        //Toast.makeText(this, "Clicked: ${character.name}", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "Clicked: ${character.name}", Toast.LENGTH_LONG).show()
         var intent = Intent(this, DetailsActivity::class.java)
         intent.putExtra("SUPERHERO", character)
         startActivity(intent)
