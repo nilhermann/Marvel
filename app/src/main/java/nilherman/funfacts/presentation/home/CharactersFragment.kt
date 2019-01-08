@@ -1,6 +1,5 @@
 package nilherman.funfacts.presentation.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -12,13 +11,15 @@ import kotlinx.android.synthetic.main.fragment_list.*
 import nilherman.funfacts.R
 import nilherman.funfacts.data.apiclient.Repository
 import nilherman.funfacts.data.apiclient.RestApi
-import nilherman.funfacts.data.model.Response
-import nilherman.funfacts.data.model.ResultsItem
+import nilherman.funfacts.data.characters.model.Response
+import nilherman.funfacts.data.characters.model.ResultsItem
+import nilherman.funfacts.data.comics.model.ComicsItem
+import nilherman.funfacts.presentation.detail.ComicsFragment
 import nilherman.funfacts.presentation.detail.DetailsFragment
 import retrofit2.Call
 import retrofit2.Callback
 
-class ListFragment : Fragment() , Callback<Response> {
+class CharactersFragment : Fragment() , Callback<Response> {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_list, container, false)
@@ -66,6 +67,5 @@ class ListFragment : Fragment() , Callback<Response> {
         transaction.replace(R.id.container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
-
     }
 }

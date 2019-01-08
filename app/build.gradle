@@ -44,5 +44,6 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.2.0'
     implementation 'org.parceler:parceler-api:1.1.6'
     kapt 'org.parceler:parceler:1.1.6'
+    implementation 'com.android.support:design:28.0.0'
 
 }

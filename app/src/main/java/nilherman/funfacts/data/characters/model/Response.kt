@@ -1,4 +1,4 @@
-package nilherman.funfacts.data.model
+package nilherman.funfacts.data.characters.model
 
 import com.google.gson.annotations.SerializedName
 

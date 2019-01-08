@@ -1,6 +1,6 @@
 package nilherman.funfacts.data.apiclient
 
-import nilherman.funfacts.data.model.Response
+import nilherman.funfacts.data.characters.model.Response
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -22,6 +22,26 @@ interface MarvelApi {
     @Headers("Accept: application/json")
     @GET("/v1/public/characters")
     fun getCharacter(@Query("apikey")
+                     apikey : String,
+                     @Query("ts")
+                     ts : String,
+                     @Query("hash")
+                     hash : String): Call<Response>
+
+    @Headers("Accept: application/json")
+    @GET("/v1/public/comics")
+    fun getComic(@Query("apikey")
+                     apikey : String,
+                     @Query("ts")
+                     ts : String,
+                     @Query("hash")
+                     hash : String,
+                     @Query("titleStartsWith")
+                     titleStartsWith : String): Call<Response>
+
+    @Headers("Accept: application/json")
+    @GET("/v1/public/comics")
+    fun getComic(@Query("apikey")
                      apikey : String,
                      @Query("ts")
                      ts : String,

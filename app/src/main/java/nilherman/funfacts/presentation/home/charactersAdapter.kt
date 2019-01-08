@@ -8,14 +8,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.frases_inspiradoras.view.*
+import kotlinx.android.synthetic.main.characters_list.view.*
+import kotlinx.android.synthetic.main.comics_list.view.*
 import nilherman.funfacts.R
-import nilherman.funfacts.data.model.ResultsItem
+import nilherman.funfacts.data.characters.model.ResultsItem
+import nilherman.funfacts.data.comics.model.ComicsItem
 
 class CharactersAdapter(val characters: List<ResultsItem?>?, val context: Context, val clickListener: (ResultsItem) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.frases_inspiradoras, parent, false))
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.characters_list, parent, false))
     }
 
     override fun getItemCount(): Int = characters?.size ?: 0
