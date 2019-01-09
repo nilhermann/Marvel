@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/im_thumbnail"
-        android:layout_width="50dp"
-        android:layout_height="50dp"/>
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
 
     <TextView
         android:id="@+id/tv_characters"
@@ -17,6 +17,8 @@
         android:text="TextView"
         android:textSize="14sp"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="48dp" />
+        tools:layout_editor_absoluteY="48dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"/>
 
 </LinearLayout>

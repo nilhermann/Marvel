@@ -6,42 +6,44 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.fragment_comics.*
-import kotlinx.android.synthetic.main.fragment_characters.*
+import kotlinx.android.synthetic.main.fragment_detail.*
 import nilherman.funfacts.R
-import nilherman.funfacts.data.characters.model.ResultsItem
-import nilherman.funfacts.data.comics.model.ComicsItem
+import nilherman.funfacts.data.model.characters.ResultsItem
+import nilherman.funfacts.data.model.comics.ComicsItem
 
 class DetailsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_characters, container, false)
+        return inflater.inflate(R.layout.fragment_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var character = activity!!.intent.getParcelableExtra<ResultsItem>("SUPERHERO")
-        tvCharacters.text = character.name
-        tvDescription.text = character.description
-        Glide.with(this)
-                .load(character?.thumbnail?.path+ "." + character?.thumbnail?.extension)
-                .into(imThumbnail)
-    }
-}
-
-class ComicsFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_comics, container, false)
+        loadData()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        var comics = activity!!.intent.getParcelableExtra<ComicsItem>("COMICS")
-        tvTitle.text = comics.title
-        tvDescriptions.text = comics.description
-        Glide.with(this)
-                .load(comics?.image?.path+ "." + comics?.image?.extension)
-                .into(imImage)
+    private fun loadData() {
+        when (activity!!.intent.getStringExtra("ID")) {
+            "COMIC" -> {
+                var comic = activity!!.intent.getParcelableExtra<ComicsItem>("COMIC")
+                comic.let { comic ->
+                    tvCharacters.text = comic.title
+                    tvDescription.text = comic.description
+                    Glide.with(this)
+                            .load(comic?.thumbnail?.path+ "." + comic?.thumbnail?.extension)
+                            .into(imThumbnail)
+                }
+            }
+            "SUPERHERO" -> {
+                var character = activity!!.intent.getParcelableExtra<ResultsItem>("SUPERHERO")
+                character.let { character ->
+                    tvCharacters.text = character.name
+                    tvDescription.text = character.description
+                    Glide.with(this)
+                            .load(character?.thumbnail?.path+ "." + character?.thumbnail?.extension)
+                            .into(imThumbnail)
+                }
+            }
+        }
     }
 }

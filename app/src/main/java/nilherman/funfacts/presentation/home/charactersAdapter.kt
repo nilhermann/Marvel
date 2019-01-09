@@ -9,10 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.characters_list.view.*
-import kotlinx.android.synthetic.main.comics_list.view.*
 import nilherman.funfacts.R
-import nilherman.funfacts.data.characters.model.ResultsItem
-import nilherman.funfacts.data.comics.model.ComicsItem
+import nilherman.funfacts.data.model.characters.ResultsItem
 
 class CharactersAdapter(val characters: List<ResultsItem?>?, val context: Context, val clickListener: (ResultsItem) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
 

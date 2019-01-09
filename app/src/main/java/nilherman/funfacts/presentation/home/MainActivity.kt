@@ -16,6 +16,13 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        navigateToFirstFragment()
+    }
+
+    private fun navigateToFirstFragment() {
+        val charactersFragment = CharactersFragment()
+        openFragment(charactersFragment)
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {

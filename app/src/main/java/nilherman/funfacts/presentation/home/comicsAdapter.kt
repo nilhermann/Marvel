@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.comics_list.view.*
 import nilherman.funfacts.R
-import nilherman.funfacts.data.comics.model.ComicsItem
+import nilherman.funfacts.data.model.comics.ComicsItem
 
 class ComicsAdapter(val comics: List<ComicsItem?>?, val context: Context, val clickListener: (ComicsItem) -> Unit) : RecyclerView.Adapter<ViewHolderComics>() {
 
@@ -22,7 +22,7 @@ class ComicsAdapter(val comics: List<ComicsItem?>?, val context: Context, val cl
     override fun onBindViewHolder(holder: ViewHolderComics, position: Int) {
         holder.tvComics.text = comics?.get(position)?.title
         Glide.with(context)
-                .load(comics?.get(position)?.image?.path + "." + comics?.get(position)?.image?.extension)
+                .load(comics?.get(position)?.thumbnail?.path + "." + comics?.get(position)?.thumbnail?.extension)
                 .into(holder.imageView)
 
         holder.bind(comics?.get(position)!!, clickListener)

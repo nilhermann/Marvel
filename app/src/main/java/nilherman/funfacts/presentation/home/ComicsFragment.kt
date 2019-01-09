@@ -1,49 +1,53 @@
 package nilherman.funfacts.presentation.home
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.fragment_list_comics.*
 import nilherman.funfacts.R
 import nilherman.funfacts.data.apiclient.Repository
 import nilherman.funfacts.data.apiclient.RestApi
-import nilherman.funfacts.data.comics.model.ComicsItem
-import nilherman.funfacts.data.comics.model.Response
-import nilherman.funfacts.presentation.detail.ComicsFragment
+import nilherman.funfacts.data.model.comics.ComicsItem
+import nilherman.funfacts.data.model.comics.Response
+import nilherman.funfacts.presentation.BaseFragment
 import retrofit2.Call
 import retrofit2.Callback
 
-class ComicsFragment : Fragment() , Callback<Response> {
+class ComicsFragment : BaseFragment(), Callback<Response> {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_list_comics, container, false)
+        val string: String = getString(R.string.comics)
+        return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initTitle()
         initRecyclerView()
         initListeners()
     }
 
-    private fun initRecyclerView() {
-        recyclerViewComics.layoutManager = LinearLayoutManager(requireContext())
+    private fun initTitle() {
+        title.text = getString(R.string.comics)
+    }
 
-        Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash)
+    private fun initRecyclerView() {
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash).enqueue(this)
     }
 
     private fun initListeners() {
-        buttoncomics.setOnClickListener{
-            var searchFilter = searchcomics.text.toString()
+        button.setOnClickListener{
+            var searchFilter = search.text.toString()
             if (searchFilter.isEmpty()) {
-                Repository().getCharacter(RestApi.apikey, RestApi.ts, RestApi.hash)
+                Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash).enqueue(this)
             } else {
-                Repository().getCharacter(RestApi.apikey, RestApi.ts, RestApi.hash, searchFilter)
+                Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash, searchFilter).enqueue(this)
             }
         }
     }
@@ -53,18 +57,17 @@ class ComicsFragment : Fragment() , Callback<Response> {
     }
 
     override fun onResponse(call: Call<Response>?, response: retrofit2.Response<Response>?) {
-        recyclerViewComics.adapter = ComicsAdapter(response?.body()?.data?.comics, requireContext()) { comic: ComicsItem -> onComicClicked(comic) }
-        recyclerViewComics.adapter?.notifyDataSetChanged()
+        recyclerView?.let {
+                recyclerView.adapter = ComicsAdapter(response?.body()?.data?.results, requireContext()) { comic: ComicsItem -> onComicClicked(comic) }
+            recyclerView.adapter?.notifyDataSetChanged()
+        }
     }
 
-
     private fun onComicClicked(comic : ComicsItem) {
+        removeExtras()
         activity!!.intent.putExtra("COMIC", comic)
+        activity!!.intent.putExtra("ID", "COMIC")
 
-        val fragment = ComicsFragment()
-        val transaction = activity!!.supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        navigateToDetails()
     }
 }

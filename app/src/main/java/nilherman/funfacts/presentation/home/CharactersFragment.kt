@@ -1,7 +1,6 @@
 package nilherman.funfacts.presentation.home
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,25 +10,29 @@ import kotlinx.android.synthetic.main.fragment_list.*
 import nilherman.funfacts.R
 import nilherman.funfacts.data.apiclient.Repository
 import nilherman.funfacts.data.apiclient.RestApi
-import nilherman.funfacts.data.characters.model.Response
-import nilherman.funfacts.data.characters.model.ResultsItem
-import nilherman.funfacts.data.comics.model.ComicsItem
-import nilherman.funfacts.presentation.detail.ComicsFragment
-import nilherman.funfacts.presentation.detail.DetailsFragment
+import nilherman.funfacts.data.model.characters.Response
+import nilherman.funfacts.data.model.characters.ResultsItem
+import nilherman.funfacts.presentation.BaseFragment
 import retrofit2.Call
 import retrofit2.Callback
 
-class CharactersFragment : Fragment() , Callback<Response> {
+class CharactersFragment : BaseFragment() , Callback<Response> {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val string: String = getString(R.string.characters)
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initTitle()
         initRecyclerView()
         initListeners()
+    }
+
+    private fun initTitle() {
+        title.text = getString(R.string.characters)
     }
 
     private fun initRecyclerView() {
@@ -54,18 +57,17 @@ class CharactersFragment : Fragment() , Callback<Response> {
     }
 
     override fun onResponse(call: Call<Response>?, response: retrofit2.Response<Response>?) {
-        recyclerView.adapter = CharactersAdapter(response?.body()?.data?.results, requireContext()) { character: ResultsItem -> onCharactersClicked(character) }
-        recyclerView.adapter?.notifyDataSetChanged()
+        recyclerView?.let {
+            recyclerView.adapter = CharactersAdapter(response?.body()?.data?.results, requireContext()) { character: ResultsItem -> onCharactersClicked(character) }
+            recyclerView.adapter?.notifyDataSetChanged()
+        }
     }
 
     private fun onCharactersClicked(character : ResultsItem) {
-//        Toast.makeText(this, "Clicked: ${character.name}", Toast.LENGTH_LONG).show()
-        activity?.intent?.putExtra("SUPERHERO", character)
+        removeExtras()
+        activity!!.intent.putExtra("SUPERHERO", character)
+        activity!!.intent.putExtra("ID", "SUPERHERO")
 
-        val fragment = DetailsFragment()
-        val transaction = activity!!.supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        navigateToDetails()
     }
 }
