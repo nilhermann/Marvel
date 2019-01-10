@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_detail.*
+import nilherman.funfacts.COMIC
 import nilherman.funfacts.R
+import nilherman.funfacts.SUPERHERO
 import nilherman.funfacts.data.model.characters.ResultsItem
 import nilherman.funfacts.data.model.comics.ComicsItem
 
@@ -23,24 +25,24 @@ class DetailsFragment : Fragment() {
     }
 
     private fun loadData() {
-        when (activity!!.intent.getStringExtra("ID")) {
-            "COMIC" -> {
-                var comic = activity!!.intent.getParcelableExtra<ComicsItem>("COMIC")
-                comic.let { comic ->
+        when (activity?.intent?.getStringExtra("ID")) {
+            COMIC -> {
+                var comic = activity?.intent?.getParcelableExtra<ComicsItem>(COMIC)
+                comic?.let { comic ->
                     tvCharacters.text = comic.title
                     tvDescription.text = comic.description
                     Glide.with(this)
-                            .load(comic?.thumbnail?.path+ "." + comic?.thumbnail?.extension)
+                            .load(comic.thumbnail?.path+ "." + comic.thumbnail?.extension)
                             .into(imThumbnail)
                 }
             }
-            "SUPERHERO" -> {
-                var character = activity!!.intent.getParcelableExtra<ResultsItem>("SUPERHERO")
-                character.let { character ->
+            SUPERHERO -> {
+                var character = activity?.intent?.getParcelableExtra<ResultsItem>(SUPERHERO)
+                character?.let { character ->
                     tvCharacters.text = character.name
                     tvDescription.text = character.description
                     Glide.with(this)
-                            .load(character?.thumbnail?.path+ "." + character?.thumbnail?.extension)
+                            .load(character.thumbnail?.path+ "." + character.thumbnail?.extension)
                             .into(imThumbnail)
                 }
             }

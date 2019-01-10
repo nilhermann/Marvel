@@ -10,9 +10,10 @@ open class BaseFragment : Fragment() {
         val fragment = DetailsFragment()
 
         val transaction = activity!!.supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        transaction?.let {
+            transaction.replace(R.id.container, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit() }
     }
 
     fun removeExtras() {
