@@ -5,9 +5,18 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_dark"
-    tools:context=".presentation.home.MainActivity"
-    android:orientation="vertical">
+    android:background="@android:color/background_light"
+    android:orientation="vertical"
+    tools:context=".presentation.home.MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/colorPrimaryDark">
+    </android.support.v7.widget.Toolbar>
 
     <FrameLayout
         android:id="@+id/frame"

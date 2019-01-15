@@ -10,14 +10,15 @@ open class BaseFragment : Fragment() {
         val fragment = DetailsFragment()
 
         val transaction = activity!!.supportFragmentManager.beginTransaction()
-        transaction?.let {
+        transaction.let {
             transaction.replace(R.id.container, fragment)
             transaction.addToBackStack(null)
-            transaction.commit() }
+            transaction.commit()
+        }
     }
 
     fun removeExtras() {
-        activity!!.intent.removeExtra("SUPERHERO")
-        activity!!.intent.removeExtra("COMIC")
+        activity?.intent?.removeExtra("SUPERHERO")
+        activity?.intent?.removeExtra("COMIC")
     }
 }

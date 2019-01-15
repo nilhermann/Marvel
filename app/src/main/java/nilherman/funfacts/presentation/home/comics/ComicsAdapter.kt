@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -20,6 +22,8 @@ class ComicsAdapter(val comics: List<ComicsItem?>?, val context: Context, val cl
     override fun getItemCount(): Int = comics?.size ?: 0
 
     override fun onBindViewHolder(holder: ViewHolderComics, position: Int) {
+        val animation : Animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left)
+        holder.itemView.animation = animation
         holder.tvComics.text = comics?.get(position)?.title
         Glide.with(context)
                 .load(comics?.get(position)?.thumbnail?.path + "." + comics?.get(position)?.thumbnail?.extension)
