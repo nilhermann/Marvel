@@ -6,22 +6,22 @@ import retrofit2.Call
 
 class Repository : MarvelApi {
     override fun getCharacter(apikey: String, ts: String, hash: String, startsWith: String): Call<Characters> {
-        var result = RestApi().marvelApi.getCharacter(apikey, ts, hash, startsWith)
+        val result = RestApi().marvelApi.getCharacter(apikey, ts, hash, startsWith)
         return result
     }
 
     override fun getCharacter(apikey: String, ts: String, hash: String): Call<Characters> {
-        var result = RestApi().marvelApi.getCharacter(apikey, ts, hash)
+        val result = RestApi().marvelApi.getCharacter(apikey, ts, hash)
         return result
     }
 
     override fun getComic(apikey: String, ts: String, hash: String, startsWith: String): Call<Comics> {
-        var result = RestApi().marvelApi.getComic(apikey, ts, hash, startsWith)
+        val result = RestApi().marvelApi.getComic(apikey, ts, hash, startsWith)
         return result
     }
 
     override fun getComic(apikey: String, ts: String, hash: String): Call<Comics> {
-        var result = RestApi().marvelApi.getComic(apikey, ts, hash)
+        val result = RestApi().marvelApi.getComic(apikey, ts, hash)
         return result
     }
 }

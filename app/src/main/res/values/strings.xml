@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name" translatable="false">Fun Facts</string>
+    <string name="app_name" translatable="false">Marvel</string>
 
     <string name="characters">Marvel Characters</string>
     <string name="comics">Marvel Comics</string>
+    <string name="action_settings" translatable="true">Settings</string>
+    <string name="search_hint" translatable="true">Search...</string>
 
 </resources>

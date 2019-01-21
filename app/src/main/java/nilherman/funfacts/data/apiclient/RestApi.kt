@@ -6,12 +6,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RestApi {
     var marvelApi: MarvelApi
 
-    companion object {
-        const val ts : String = "1"
-        const val apikey : String = "b92c8a32f48723636b09e2a282321fdc"
-        const val hash : String = "4bd192734f49d060f216298dec15f576"
-    }
-
     init {
         val retrofit = Retrofit.Builder()
                 .baseUrl("http://gateway.marvel.com/")
@@ -19,5 +13,11 @@ class RestApi {
                 .build()
 
         marvelApi = retrofit.create(MarvelApi::class.java)
+    }
+
+    companion object {
+        const val ts : String = "1"
+        const val apikey : String = "b92c8a32f48723636b09e2a282321fdc"
+        const val hash : String = "4bd192734f49d060f216298dec15f576"
     }
 }
