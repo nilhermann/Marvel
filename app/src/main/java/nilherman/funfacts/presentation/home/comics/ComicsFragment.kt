@@ -2,11 +2,11 @@ package nilherman.funfacts.presentation.home.comics
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
-import android.support.v7.widget.SearchView
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import nilherman.funfacts.COMIC

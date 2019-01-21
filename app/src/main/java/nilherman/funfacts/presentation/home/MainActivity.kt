@@ -1,9 +1,9 @@
 package nilherman.funfacts.presentation.home
 
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import nilherman.funfacts.R
 import nilherman.funfacts.presentation.home.characters.CharactersFragment

@@ -2,10 +2,8 @@ package nilherman.funfacts.presentation.home.characters
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
-import kotlinx.android.synthetic.main.fragment_list.*
 import nilherman.funfacts.R
 import nilherman.funfacts.SUPERHERO
 import nilherman.funfacts.data.apiclient.Repository
@@ -15,8 +13,10 @@ import nilherman.funfacts.data.model.characters.ResultsItem
 import nilherman.funfacts.presentation.BaseFragment
 import retrofit2.Call
 import retrofit2.Callback
-import android.support.v7.widget.SearchView
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 class CharactersFragment : BaseFragment() , Callback<Response> {
