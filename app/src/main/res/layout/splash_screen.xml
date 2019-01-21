@@ -5,11 +5,11 @@
 
     <ImageView
         android:id="@+id/splashscreen"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:src="@drawable/marvel_2"
+        android:layout_width="416dp"
+        android:layout_height="682dp"
         android:layout_gravity="center"
-        android:keepScreenOn="true"/>
+        android:keepScreenOn="true"
+        android:src="@drawable/marvel_2" />
 
     <TextView android:layout_width="fill_parent"
         android:layout_height="wrap_content"
