@@ -14,6 +14,7 @@ import nilherman.funfacts.R
 import nilherman.funfacts.SUPERHERO
 import nilherman.funfacts.data.model.characters.ResultsItem
 import nilherman.funfacts.data.model.comics.ComicsItem
+import nilherman.funfacts.presentation.utils.parseHTML
 
 class DetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +42,7 @@ class DetailsFragment : Fragment() {
                 val comic = activity?.intent?.getParcelableExtra<ComicsItem>(COMIC)
                 comic?.let { comic ->
                     tvCharacters.text = comic.title
-                    tvDescription.text = comic.description
+                    tvDescription.text = comic.description?.parseHTML()
                     Glide.with(this)
                             .load(comic.thumbnail?.path+ "." + comic.thumbnail?.extension)
                             .into(imThumbnail)
@@ -51,7 +52,7 @@ class DetailsFragment : Fragment() {
                 val character = activity?.intent?.getParcelableExtra<ResultsItem>(SUPERHERO)
                 character?.let { character ->
                     tvCharacters.text = character.name
-                    tvDescription.text = character.description
+                    tvDescription.text = character.description?.parseHTML()
                     Glide.with(this)
                             .load(character.thumbnail?.path+ "." + character.thumbnail?.extension)
                             .into(imThumbnail)
