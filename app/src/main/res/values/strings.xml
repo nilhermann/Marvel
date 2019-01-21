@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Fun Facts</string>
+    <string name="app_name" translatable="false">Fun Facts</string>
+
+    <string name="characters">Marvel Characters</string>
+    <string name="comics">Marvel Comics</string>
+
 </resources>
