@@ -1,12 +1,14 @@
 package nilherman.funfacts.presentation.home.comics
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
 import android.support.v7.widget.SearchView
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.fragment_list.view.*
 import nilherman.funfacts.COMIC
 import nilherman.funfacts.R
 import nilherman.funfacts.data.apiclient.Repository
@@ -16,7 +18,6 @@ import nilherman.funfacts.data.model.comics.Response
 import nilherman.funfacts.presentation.BaseFragment
 import retrofit2.Call
 import retrofit2.Callback
-import android.widget.SearchView.OnQueryTextListener
 
 class ComicsFragment : BaseFragment(), Callback<Response> {
 
@@ -26,68 +27,33 @@ class ComicsFragment : BaseFragment(), Callback<Response> {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val string: String = getString(R.string.comics)
-        return inflater.inflate(R.layout.fragment_list, container, false)
+        val view =  inflater.inflate(R.layout.fragment_list, container, false)
+        setHasOptionsMenu(true)
+
+        initRecyclerView(view)
+
+        return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
 
-        initRecyclerView()
-//        initListeners()
-    }
-
-    private fun initRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
+        //initListeners()
         Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash).enqueue(this)
     }
 
-//    private fun initListeners() {
-//        toolbar.setOnMenuItemClickListener{menuItem ->
-//            when (menuItem.itemId) {
-//                R.id.action_search -> {
-//                    // TODO lo que quieras
-//                    val searchFilter = menuItem.
-//                    if (searchFilter.isEmpty()) {
-//                        Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash).enqueue(this)
-//                    } else {
-//                        Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash, searchFilter).enqueue(this)
-//                    }
-//                    true
-//                }
-//                else -> true
-//            }
-//        }
-//    }
+    private fun initRecyclerView(view : View) {
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.toolbar, menu)
-
-        val searchItem = menu?.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                Toast.makeText(context, "HOLA", Toast.LENGTH_LONG)
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false            }
-        } )
-        super.onCreateOptionsMenu(menu, inflater)
+        view.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
-
-
 
     override fun onFailure(call: Call<Response>?, t: Throwable?) {
         Log.d("", t?.message.toString())
     }
 
     override fun onResponse(call: Call<Response>?, response: retrofit2.Response<Response>?) {
-        recyclerView.let {
-                recyclerView.adapter = ComicsAdapter(response?.body()?.data?.results, requireContext()) {
+        context?.let {context ->
+                recyclerView.adapter = ComicsAdapter(response?.body()?.data?.results, context) {
                     comic: ComicsItem -> onComicClicked(comic)
                 }
             recyclerView.adapter?.notifyDataSetChanged()
@@ -100,5 +66,44 @@ class ComicsFragment : BaseFragment(), Callback<Response> {
         activity?.intent?.putExtra("ID", COMIC)
 
         navigateToDetails()
+    }
+
+    fun View.closeKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.toolbar, menu)
+
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+//        val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+//        if (null != searchView) {
+//            searchView.setSearchableInfo(searchManager.getSearchableInfo(ComponentName.unflattenFromString(String())))
+//            searchView.setIconifiedByDefault(false)
+//        }
+
+        fun doSearch() {
+            val searchFilter = searchView.toString()
+            if (searchFilter.isEmpty()) {
+                Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash).enqueue(this)
+            } else {
+                Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash, searchFilter).enqueue(this)
+            }
+        }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchView.closeKeyboard()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                doSearch()
+                return true
+            }
+        })
+        return super.onCreateOptionsMenu(menu, inflater)
     }
 }
