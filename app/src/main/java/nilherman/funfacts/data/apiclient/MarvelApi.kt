@@ -1,8 +1,8 @@
 package nilherman.funfacts.data.apiclient
 
+import androidx.lifecycle.LiveData
 import nilherman.funfacts.data.model.characters.Response as Characters
 import nilherman.funfacts.data.model.comics.Response as Comics
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -18,7 +18,7 @@ interface MarvelApi {
                      @Query("hash")
                      hash : String,
                      @Query("nameStartsWith")
-                     nameStartsWith : String): Call<Characters>
+                     nameStartsWith : String): LiveData<Characters>
 
     @Headers("Accept: application/json")
     @GET("/v1/public/characters")
@@ -27,7 +27,7 @@ interface MarvelApi {
                      @Query("ts")
                      ts : String,
                      @Query("hash")
-                     hash : String): Call<Characters>
+                     hash : String): LiveData<Characters>
 
     @Headers("Accept: application/json")
     @GET("/v1/public/comics")
@@ -38,7 +38,7 @@ interface MarvelApi {
                      @Query("hash")
                      hash : String,
                      @Query("titleStartsWith")
-                     titleStartsWith : String): Call<Comics>
+                     titleStartsWith : String): LiveData<Comics>
 
     @Headers("Accept: application/json")
     @GET("/v1/public/comics")
@@ -47,6 +47,6 @@ interface MarvelApi {
                  @Query("ts")
                      ts : String,
                  @Query("hash")
-                     hash : String): Call<Comics>
+                     hash : String): LiveData<Comics>
 
 }

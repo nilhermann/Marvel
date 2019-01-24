@@ -9,7 +9,6 @@ import nilherman.funfacts.R
 import nilherman.funfacts.presentation.home.characters.CharactersFragment
 import nilherman.funfacts.presentation.home.comics.ComicsFragment
 
-
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
