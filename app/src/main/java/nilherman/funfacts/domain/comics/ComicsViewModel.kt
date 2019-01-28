@@ -9,6 +9,6 @@ import nilherman.funfacts.data.model.comics.Response
 class ComicsViewModel : ViewModel() {
 
     fun getComic() : LiveData<Response> {
-        return Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash)
+        return Repository().getComic()
     }
 }

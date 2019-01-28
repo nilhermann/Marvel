@@ -13,6 +13,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
+import nilherman.funfacts.data.apiclient.MarvelApiImpl
+import nilherman.funfacts.data.apiclient.Repository
+import nilherman.funfacts.data.apiclient.RestApi
 import nilherman.funfacts.domain.characters.CharactersViewModel
 
 class CharactersFragment : BaseFragment() {
@@ -35,7 +38,7 @@ class CharactersFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         activity?.let {activity ->
-            viewModel = ViewModelProviders.of(activity).get(CharactersViewModel::class.java)
+            viewModel = ViewModelProviders.of(this).get(CharactersViewModel::class.java)
             viewModel.getCharacters().observe(this, androidx.lifecycle.Observer { characters ->
                 recyclerView.adapter = CharactersAdapter(characters = characters.data?.results, context = activity) {
                     character: ResultsItem -> onCharactersClicked(character)
@@ -47,19 +50,6 @@ class CharactersFragment : BaseFragment() {
     private fun initRecyclerView(view : View) {
         view.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
-
-//    override fun onFailure(call: Call<Response>?, t: Throwable?) {
-//        Log.d("", t?.message.toString())
-//    }
-
-//    override fun onResponse(call: Call<Response>?, response: retrofit2.Response<Response>?) {
-//        context?.let { context ->
-//            recyclerView.adapter = CharactersAdapter(response?.body()?.data?.results, context) {
-//                character: ResultsItem -> onCharactersClicked(character)
-//            }
-//            recyclerView.adapter?.notifyDataSetChanged()
-//        }
-//    }
 
     private fun onCharactersClicked(character : ResultsItem) {
         removeExtras()
@@ -79,27 +69,29 @@ class CharactersFragment : BaseFragment() {
 
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
+        searchView.queryHint = getString(R.string.search_hint)
 
         fun doSearch() {
             val searchFilter = searchView.toString()
-//            if (searchFilter.isEmpty()) {
-//                Repository().getCharacter(RestApi.apikey, RestApi.ts, RestApi.hash).enqueue(this)
-//            } else {
-//                Repository().getCharacter(RestApi.apikey, RestApi.ts, RestApi.hash, searchFilter).enqueue(this)
-//            }
+            val marvelApi = MarvelApiImpl()
+            if (searchFilter.isEmpty()) {
+                marvelApi.getCharacter(RestApi.apikey, RestApi.ts, RestApi.hash)
+            } else {
+                marvelApi.getCharacter(RestApi.apikey, RestApi.ts, RestApi.hash, searchFilter)
+            }
         }
 
         searchView.setOnQueryTextListener(object :  SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                doSearch()
                 searchView.closeKeyboard()
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                doSearch()
+
                 return false
             }
         })
-        return super.onCreateOptionsMenu(menu, inflater)
     }
 }
