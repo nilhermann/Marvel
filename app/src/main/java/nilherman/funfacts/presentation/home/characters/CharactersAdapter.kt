@@ -1,7 +1,6 @@
 package nilherman.funfacts.presentation.home.characters
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +8,13 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.characters_list.view.*
 import nilherman.funfacts.R
 import nilherman.funfacts.data.model.characters.ResultsItem
 
-class CharactersAdapter(val characters: List<ResultsItem?>?, val context: Context, val clickListener: (ResultsItem) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
+class CharactersAdapter(val characters: List<ResultsItem?>?, val context: Context, private val clickListener: (ResultsItem) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.characters_list, parent, false))

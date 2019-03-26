@@ -1,28 +1,40 @@
 package nilherman.funfacts.data.apiclient
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import nilherman.funfacts.data.model.characters.Response as Characters
 import nilherman.funfacts.data.model.comics.Response as Comics
-import retrofit2.Call
 
-class Repository : MarvelApi {
-    override fun getCharacter(apikey: String, ts: String, hash: String, startsWith: String): Call<Characters> {
-        val result = RestApi().marvelApi.getCharacter(apikey, ts, hash, startsWith)
-        return result
+class Repository {
+
+    private val marvelApi = MarvelApiImpl()
+
+    fun getCharacters() : LiveData<Characters> {
+        var liveData = MutableLiveData<Characters>()
+
+        marvelApi.getCharacter(RestApi.apikey, RestApi.ts, RestApi.hash).enqueue(object : Callback<Characters> {
+            override fun onResponse(call: Call<Characters>, response: Response<Characters>) {
+                liveData.value = response.body()
+            }
+
+            override fun onFailure(call: Call<Characters>, t: Throwable) {}
+        })
+        return liveData
     }
 
-    override fun getCharacter(apikey: String, ts: String, hash: String): Call<Characters> {
-        val result = RestApi().marvelApi.getCharacter(apikey, ts, hash)
-        return result
-    }
+    fun getComic() : LiveData<Comics> {
+        var liveData = MutableLiveData<Comics>()
 
-    override fun getComic(apikey: String, ts: String, hash: String, startsWith: String): Call<Comics> {
-        val result = RestApi().marvelApi.getComic(apikey, ts, hash, startsWith)
-        return result
-    }
+        marvelApi.getComic(RestApi.apikey, RestApi.ts, RestApi.hash).enqueue(object : Callback<Comics> {
+            override fun onResponse(call: Call<Comics>, response: Response<Comics>) {
+                liveData.value = response.body()
+            }
 
-    override fun getComic(apikey: String, ts: String, hash: String): Call<Comics> {
-        val result = RestApi().marvelApi.getComic(apikey, ts, hash)
-        return result
+            override fun onFailure(call: Call<Comics>, t: Throwable) {}
+        })
+        return liveData
     }
 }
-

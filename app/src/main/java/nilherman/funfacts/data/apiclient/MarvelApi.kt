@@ -1,8 +1,8 @@
 package nilherman.funfacts.data.apiclient
 
+import retrofit2.Call
 import nilherman.funfacts.data.model.characters.Response as Characters
 import nilherman.funfacts.data.model.comics.Response as Comics
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query

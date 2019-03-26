@@ -2,24 +2,26 @@ package nilherman.funfacts.presentation.home.comics
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
-import android.support.v7.widget.SearchView
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import nilherman.funfacts.COMIC
 import nilherman.funfacts.R
-import nilherman.funfacts.data.apiclient.Repository
-import nilherman.funfacts.data.apiclient.RestApi
 import nilherman.funfacts.data.model.comics.ComicsItem
 import nilherman.funfacts.data.model.comics.Response
+import nilherman.funfacts.domain.comics.ComicsViewModel
 import nilherman.funfacts.presentation.BaseFragment
 import retrofit2.Call
 import retrofit2.Callback
 
 class ComicsFragment : BaseFragment(), Callback<Response> {
+
+    private lateinit var viewModel: ComicsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +31,6 @@ class ComicsFragment : BaseFragment(), Callback<Response> {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view =  inflater.inflate(R.layout.fragment_list, container, false)
         setHasOptionsMenu(true)
-
         initRecyclerView(view)
 
         return view
@@ -37,13 +38,17 @@ class ComicsFragment : BaseFragment(), Callback<Response> {
 
     override fun onStart() {
         super.onStart()
-
-        //initListeners()
-        Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash).enqueue(this)
+        activity?.let {activity ->
+            viewModel = ViewModelProviders.of(activity).get(ComicsViewModel::class.java)
+            viewModel.getComic().observe(this, androidx.lifecycle.Observer { comics ->
+                recyclerView.adapter = ComicsAdapter(comics = comics.data?.results, context = activity) {
+                comic: ComicsItem -> onComicClicked(comic)
+                }
+            })
+        }
     }
 
     private fun initRecyclerView(view : View) {
-
         view.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
@@ -87,9 +92,9 @@ class ComicsFragment : BaseFragment(), Callback<Response> {
         fun doSearch() {
             val searchFilter = searchView.toString()
             if (searchFilter.isEmpty()) {
-                Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash).enqueue(this)
-            } else {
-                Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash, searchFilter).enqueue(this)
+//                Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash).enqueue(this)
+//            } else {
+//                Repository().getComic(RestApi.apikey, RestApi.ts, RestApi.hash, searchFilter).enqueue(this)
             }
         }
 
